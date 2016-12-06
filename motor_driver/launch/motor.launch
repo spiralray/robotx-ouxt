@@ -1,0 +1,8 @@
+<launch>
+  <node pkg="motor_driver" type="motor_driver.py" name="motor_left" output="screen">
+    <param name="ip" type="string" value="192.168.10.101" />
+  </node>
+  <node pkg="motor_driver" type="motor_driver.py" name="motor_right" output="screen">
+    <param name="ip" type="string" value="192.168.10.100" />
+  </node>
+</launch>
