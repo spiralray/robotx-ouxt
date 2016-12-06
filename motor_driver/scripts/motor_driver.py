@@ -17,7 +17,7 @@ class MotorDriver:
         self.duty = 0.
         self.is_stop = False
         rospy.Subscriber('~duty', Float32, self.callback)
-        rospy.Subscriber('~stop', Float32, self.callback)
+        rospy.Subscriber('~stop', Bool, self.callback)
 
     def end(self):
         self.is_stop = True
