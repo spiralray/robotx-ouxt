@@ -4,8 +4,9 @@
 import rospy
 import socket
 import threading
+import struct
 from std_msgs.msg import Bool
-from std_msgs.msg import Float64
+from std_msgs.msg import Float32
 
 class MotorDriver:
     def __init__(self):
@@ -17,41 +18,40 @@ class MotorDriver:
         self.right_pwm = 0
         self.is_stop = False
         self.is_end = False
-        self.update()
-
-    def update(self):
-        if self.is_stop:
-            self.sock.sendto("0", self.motor_left )
-            self.sock.sendto("0", self.motor_right )
-        else:
-            self.sock.sendto("{0:.3f}".format(self.left_pwm),  self.motor_left )
-            self.sock.sendto("{0:.3f}".format(self.right_pwm), self.motor_right )
-        if not self.is_end:
-            self.timer = threading.Timer(0.05, self.update)
-            self.timer.start()
+        rospy.Subscriber('~left/duty', Float32, self.callback_left)
+        rospy.Subscriber('~right/duty', Float32, self.callback_right)
 
     def end(self):
         self.is_stop = True
-        if self.timer.is_alive():
-            self.timer.cancel()
-        self.update()
+        self.sock.sendto(bytearray(struct.pack("f", 0.)), self.motor_left )
+        self.sock.sendto(bytearray(struct.pack("f", 0.)), self.motor_right )
 
     def callback_left(self, data):
-        if data.data > 1:
-            data.data = 1
-        elif data.data < -1:
-            data.data = -1
+        if data.data > 0.99:
+            data.data = 0.99
+        elif data.data < -0.99:
+            data.data = -0.99
         self.left_pwm = data.data
+        if not self.is_stop:
+            self.sock.sendto(bytearray(struct.pack("f", self.left_pwm)),  self.motor_left )
 
     def callback_right(self, data):
-        if data.data > 1:
-            data.data = 1
-        elif data.data < -1:
-            data.data = -1
+        if data.data > 0.99:
+            data.data = 0.99
+        elif data.data < -0.99:
+            data.data = -0.99
         self.right_pwm = data.data
+        if not self.is_stop:
+            self.sock.sendto(bytearray(struct.pack("f", self.right_pwm)), self.motor_right )
 
     def callback_stop(data):
         self.is_stop = data.data
+        if self.is_stop:
+            self.sock.sendto(bytearray(struct.pack("f", 0.)), self.motor_left )
+            self.sock.sendto(bytearray(struct.pack("f", 0.)), self.motor_right )
+        else:
+            self.sock.sendto(bytearray(struct.pack("f", self.left_pwm)),  self.motor_left )
+            self.sock.sendto(bytearray(struct.pack("f", self.right_pwm)), self.motor_right )
 
 if __name__ == '__main__':
     rospy.init_node('motor_driver', anonymous=False)
