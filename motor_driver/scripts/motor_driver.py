@@ -13,11 +13,11 @@ class MotorDriver:
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.motor = ( rospy.get_param('~ip'), rospy.get_param(rospy.get_name()+'~port',4001) )
         self.sock.sendto(bytearray(struct.pack("f", 0.)), self.motor )
-        
+
         self.duty = 0.
         self.is_stop = False
         rospy.Subscriber('~duty', Float32, self.callback)
-        rospy.Subscriber('~stop', Bool, self.callback)
+        rospy.Subscriber('~stop', Bool, self.callback_stop)
 
     def end(self):
         self.is_stop = True
