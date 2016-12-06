@@ -11,8 +11,8 @@ class MotorDriver:
     def __init__(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-        self.motor_left = ( rospy.get_param(rospy.get_name()+'/left/ip','192.168.10.101'), rospy.get_param(rospy.get_name()+'/left/port',4001) )
-        self.motor_right = ( rospy.get_param(rospy.get_name()+'/right/ip','192.168.10.100'), rospy.get_param(rospy.get_name()+'/right/port',4001) )
+        self.motor_left = ( rospy.get_param('~left/ip','192.168.10.101'), rospy.get_param(rospy.get_name()+'~left/port',4001) )
+        self.motor_right = ( rospy.get_param('~right/ip','192.168.10.100'), rospy.get_param(rospy.get_name()+'~right/port',4001) )
         self.left_pwm = 0
         self.right_pwm = 0
         self.is_stop = False
