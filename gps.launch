@@ -1,9 +1,0 @@
-<launch>
-  <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="nmea_navsat_driver" output="screen" clear_params="true">
-    <param name="port" type="string" value="/dev/ttyUSB0" />
-    <param name="baud" type="int" value="9600" />
-    <remap from="/fix" to="/gps/fix"/>
-    <remap from="/vel" to="/gps/vel"/>
-    <remap from="/time_reference" to="/gps/time_reference"/>
-  </node>
-</launch>

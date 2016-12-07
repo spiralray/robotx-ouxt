@@ -1,0 +1,20 @@
+<launch>
+  <node pkg="hokuyo3d" type="hokuyo3d" name="hokuyo3d" output="screen">
+    <param name="ip" type="string" value="192.168.10.10" />
+  </node>
+
+  <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="nmea_navsat_driver" output="screen" clear_params="true">
+    <param name="port" type="string" value="/dev/tty.SLAB_USBtoUART" />
+    <param name="baud" type="int" value="9600" />
+    <remap from="/fix" to="/gps/fix"/>
+    <remap from="/vel" to="/gps/vel"/>
+    <remap from="/time_reference" to="/gps/time_reference"/>
+  </node>
+
+  <arg name="razor_config_file" default="$(find razor_imu_9dof)/config/my_razor.yaml"/>
+  <node pkg="razor_imu_9dof" type="imu_node.py" name="imu_node" output="screen">
+    <rosparam file="$(arg razor_config_file)" command="load"/>
+    <param name="port" type="string" value="/dev/tty.usbserial-AI04Y03A" />
+    <remap from="/imu" to="/imu/data"/>
+  </node>
+</launch>

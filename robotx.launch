@@ -1,15 +1,23 @@
 <launch>
-  <include file="$(find hokuyo3d)/launch/ouxt.launch"/>
-  <node pkg="imu_complementary_filter" type="complementary_filter_node" name="imu_complementary_filter" clear_params="true">
-    <param name="use_mag" value="false"/>
+  <!-- <include file="sensor.launch"/> -->
+  <!-- <include file="$(find robot_localization)/launch/navsat_transform_template.launch"/> -->
+  <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true" output="screen">
+    <param name="yaw_offset" value="0"/>
+    <param name="zero_altitude" value="true"/>
+    <param name="publish_filtered_gps" value="false"/>
+    <param name="broadcast_utm_transform" value="true"/>
+    <param name="use_odometry_yaw" value="false"/>
+
+    <param name="wait_for_datum" value="false"/>
+    <rosparam param="datum">[35.048577, 135.779580, 125.900000, map, base_link]</rosparam>
+
+    <!-- Remap input topics -->
+    <remap from="/odometry/filtered" to="/robot/pose"/>
   </node>
 
-  <include file="gps.launch"/>
-  <include file="$(find robot_localization)/launch/navsat_transform_template.launch"/>
-
   <node pkg="tf2_ros" type="static_transform_publisher" name="bl_imu" args="0 1 0 0 0 0 1 base_link imu_link" />
-  <node pkg="tf2_ros" type="static_transform_publisher" name="bl_gps" args="0 1 0 0 0 0 1 base_link gps_link" />
-  <node pkg="tf2_ros" type="static_transform_publisher" name="bl_laser" args="0 2 0 0 0 0 1 base_link hokuyo3d" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="bl_gps" args="0 1 0 0 0 0 1 base_link gps" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="bl_hokuyo3d" args="0 2 0 0 0 0 1 base_link hokuyo3d" />
 <!--
   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf" clear_params="true">
     <param name="output_frame" value="odom"/>
