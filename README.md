@@ -7,4 +7,5 @@
 
 ```
 sudo apt-get install ros-kinetic-imu-tools
+sudo apt-get install ros-kinetic-robot-localization
 ```

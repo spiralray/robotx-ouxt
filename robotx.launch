@@ -62,4 +62,41 @@
     <param name="print_diagnostics" value="false"/>
   </node>
 
+  <node name="mapper" type="dynamic_mapper" pkg="ethzasl_icp_mapper" output="screen" >
+
+		<param name="subscribe_scan" value="false"/>
+		<param name="subscribe_cloud" value="true"/>
+
+		<remap from="cloud_in" to="/hokuyo3d/hokuyo_cloud2"/>
+
+		<param name="icpConfig" value="$(find ethzasl_icp_mapper)/cfg/icp_dynamic.yaml" />
+		<param name="inputFiltersConfig" value="$(find ethzasl_icp_mapper)/cfg/input_filters.yaml" />
+		<param name="mapPostFiltersConfig" value="$(find ethzasl_icp_mapper)/cfg/map_post_filters.yaml" />
+
+
+		<param name="odom_frame" value="/hokuyo3d"/>
+		<param name="map_frame" value="/map" />
+
+		<param name="useROSLogger" value="false" />
+		<param name="inputQueueSize" value="1" />
+		<param name="tfRefreshPeriod" value="0.005" />
+		<param name="minOverlap" value="0.2" />
+		<param name="maxOverlapToMerge" value="0.99" />
+		<param name="minReadingPointCount" value="1000" />
+		<param name="minMapPointCount" value="10000" />
+		<param name="localizing" value="true" />
+		<param name="mapping" value="true" />
+
+		<param name="priorStatic" value="0.45"/>
+		<param name="priorDyn" value="0.55"/>
+		<param name="maxAngle" value="0.01"/>
+		<param name="eps_a" value="0.1"/>
+		<param name="eps_d" value="0.1"/>
+		<param name="alpha" value="0.99"/>
+		<param name="beta" value="0.90"/>
+		<param name="maxDyn" value="0.90"/>
+		<param name="maxDistNewPoint" value="0.7"/>
+		<param name="sensorMaxRange" value="40.0"/>
+	</node>
+
 </launch>
