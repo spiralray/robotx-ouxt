@@ -5,6 +5,7 @@
   </node>
 
   <node pkg="ouxt" type="manual.py" name="manual" output="screen">
+    <remap from="/cmd_vel" to="/manual_vel"/>
   </node>
 
   <node pkg="ouxt_base_controller" type="ouxt_base_controller_node" name="ouxt_base_controller_node" output="screen">

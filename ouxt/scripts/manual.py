@@ -11,7 +11,7 @@ def callback(data):
     mode = Int32()
 
     twist.linear.x = 2*data.axes[1]
-    twist.angular.z = -data.axes[0]
+    twist.angular.z = data.axes[0]
     vel_pub.publish(twist)
 
     if data.buttons[7]:
