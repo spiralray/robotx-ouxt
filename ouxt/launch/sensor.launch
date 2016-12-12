@@ -11,7 +11,7 @@
     <remap from="/time_reference" to="/gps/time_reference"/>
   </node>
 
-  <arg name="razor_config_file" default="my_razor.yaml"/>
+  <arg name="razor_config_file" default="$(find ouxt)/param/my_razor.yaml"/>
   <node pkg="razor_imu_9dof" type="imu_node.py" name="imu_node" output="screen">
     <rosparam file="$(arg razor_config_file)" command="load"/>
     <param name="port" type="string" value="/dev/ttyUSB1" />

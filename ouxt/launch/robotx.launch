@@ -1,6 +1,20 @@
 <launch>
-  <!-- <include file="sensor.launch"/> -->
-  <!-- <include file="$(find robot_localization)/launch/navsat_transform_template.launch"/> -->
+  <include file="$(find ouxt)/launch/sensor.launch"/>
+
+  <node pkg="joy" type="joy_node" name="joy_node" output="screen">
+  </node>
+
+  <node pkg="ouxt" type="manual.py" name="manual" output="screen">
+  </node>
+
+  <node pkg="ouxt_base_controller" type="ouxt_base_controller_node" name="ouxt_base_controller_node" output="screen">
+  </node>
+  <include file="$(find motor_driver)/launch/motor.launch"/>
+
+  <node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
+    <param name="port" type="string" value="/dev/ttyACM0" />
+  </node>
+
   <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true" output="screen">
     <param name="yaw_offset" value="0"/>
     <param name="zero_altitude" value="true"/>
@@ -12,9 +26,9 @@
     <rosparam param="datum">[35.048577, 135.779580, 125.900000, map, base_link]</rosparam>
   </node>
 
-  <node pkg="tf2_ros" type="static_transform_publisher" name="bl_imu" args="0 0 0 0 0 0 1 base_link base_imu_link" />
-  <node pkg="tf2_ros" type="static_transform_publisher" name="bl_gps" args="0 0 0 0 0 0 1 base_link gps" />
-  <node pkg="tf2_ros" type="static_transform_publisher" name="bl_hokuyo3d" args="0 2 0 0 0 0 1 base_link hokuyo3d" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="bl_imu" args="0 0 1 0 0 0 1 base_link base_imu_link" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="bl_gps" args="0 0 1 0 0 0 1 base_link gps" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="bl_hokuyo3d" args="1 0 1 0 0 0 1 base_link hokuyo3d" />
 
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
     <param name="frequency" value="30"/>
@@ -48,5 +62,7 @@
 
     <param name="print_diagnostics" value="false"/>
   </node>
+
+  <include file="$(find ouxt)/launch/mapping.launch"/>
 
 </launch>
