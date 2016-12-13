@@ -8,6 +8,9 @@
     <remap from="/cmd_vel" to="/manual_vel"/>
   </node>
 
+  <node pkg="ouxt" type="heartbeat_listener.py" name="heartbeat_listener" output="screen">
+  </node>
+
   <node pkg="ouxt_base_controller" type="ouxt_base_controller_node" name="ouxt_base_controller_node" output="screen">
   </node>
   <include file="$(find motor_driver)/launch/motor.launch"/>
@@ -65,5 +68,14 @@
   </node>
 
   <include file="$(find ouxt)/launch/mapping.launch"/>
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find ouxt)/param/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find ouxt)/param/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam file="$(find ouxt)/param/local_costmap_params.yaml" command="load"/>
+    <rosparam file="$(find ouxt)/param/global_costmap_params.yaml" command="load"/>
+    <rosparam file="$(find ouxt)/param/base_local_planner_params.yaml" command="load"/>
+    <rosparam file="$(find ouxt)/param/move_base_params.yaml" command="load"/>
+  </node>
 
 </launch>
