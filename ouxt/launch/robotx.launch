@@ -3,9 +3,10 @@
   <!--
   <node pkg="joy" type="joy_node" name="joy_node" output="screen">
   </node>
+  -->
+
   <node pkg="ouxt" type="heartbeat_listener.py" name="heartbeat_listener" output="screen">
   </node>
-  -->
   
   <node pkg="ouxt" type="manual.py" name="manual" output="screen">
     <remap from="/cmd_vel" to="/manual_vel"/>

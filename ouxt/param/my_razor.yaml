@@ -4,12 +4,12 @@ port: "/dev/tty.usbserial-AI04Y03A"
 
 ##### Calibration ####
 ### accelerometer
-accel_x_min: -258.0
-accel_x_max: 242.0
-accel_y_min: -242.0
-accel_y_max: 258.0
-accel_z_min: -230.0
-accel_z_max: 270.0
+accel_x_min: -260.0
+accel_x_max: 240.0
+accel_y_min: -210.0
+accel_y_max: 290.0
+accel_z_min: -232.0
+accel_z_max: 268.0
 
 ### magnetometer
 # standard calibration
