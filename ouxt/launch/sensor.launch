@@ -4,7 +4,7 @@
   </node>
 
   <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="nmea_navsat_driver" output="screen" clear_params="true">
-    <param name="port" type="string" value="/dev/ttyUSB0" />
+    <param name="port" type="string" value="/dev/ttyUSB_GPS" />
     <param name="baud" type="int" value="9600" />
     <remap from="/fix" to="/gps/fix"/>
     <remap from="/vel" to="/gps/vel"/>
@@ -14,7 +14,7 @@
   <arg name="razor_config_file" default="$(find ouxt)/param/my_razor.yaml"/>
   <node pkg="razor_imu_9dof" type="imu_node.py" name="imu_node" output="screen">
     <rosparam file="$(arg razor_config_file)" command="load"/>
-    <param name="port" type="string" value="/dev/ttyUSB1" />
+    <param name="port" type="string" value="/dev/ttyUSB_IMU" />
     <remap from="/imu" to="/imu/data"/>
   </node>
 </launch>

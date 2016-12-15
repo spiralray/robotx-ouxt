@@ -31,8 +31,8 @@
             angle_max: 1.5708 # M_PI/2
             angle_increment: 0.0044 # M_PI/360.0/2.0
             scan_time: 0.05
-            range_min: 0.30
-            range_max: 8.0
+            range_min: 0.5
+            range_max: 40.0
             use_inf: true
 
             # Concurrency level, affects number of pointclouds queued for processing and number of threads used
@@ -51,7 +51,7 @@
         <!--                                 # (REMOVED in 1.1.1; transform data is used instead) Is the laser right side up (scans are ordered CCW), or upside down (scans are ordered CW)?   -->
         <!--   throttle_scans: 1             # (int, default: 1)  -->
         <!--                                 # Process 1 out of every this many scans (set it to a higher number to skip more scans)   -->
-        <!--   map_update_interval: 4.0      # (float, default: 5.0)  -->
+        map_update_interval: 1.0      # (float, default: 5.0)
         <!--                                 # How long (in seconds) between updates to the map. Lowering this number updates the occupancy grid more often, at the expense of greater computational load.   -->
         <!--   maxUrange: 5.0                # (float, default: 80.0)  -->
         <!--                                 # The maximum usable range of the laser. A beam is cropped to this value.   -->

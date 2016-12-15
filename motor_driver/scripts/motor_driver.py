@@ -32,7 +32,7 @@ class MotorDriver:
         if not self.is_stop:
             self.sock.sendto(bytearray(struct.pack("f", self.duty)), self.motor )
 
-    def callback_stop(data):
+    def callback_stop(self, data):
         self.is_stop = data.data
         if self.is_stop:
             self.sock.sendto(bytearray(struct.pack("f", 0.)), self.motor )
