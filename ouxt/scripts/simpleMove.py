@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
 import rospy
-import tf
+import tf2_ros
+import tf2_geometry_msgs
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import PoseStamped
 from math import pi
 import math
+
 
 goal = None
 
@@ -23,11 +25,11 @@ def timerCallback(event):
         twist.angular.z = 0
     else:
         try:
-            goal.header.frame_id = '/odom'
-            goal.header.stamp = rospy.Time.now() - rospy.Duration(1)
-            goal_local = tf_listener.transformPose('/base_link', goal)
+            transform = tf_buffer.lookup_transform("base_link", goal.header.frame_id, rospy.Time(0), rospy.Duration(1.0))
+            goal_local = tf2_geometry_msgs.do_transform_pose(goal, transform)
+
             #print(goal_local.pose.position)
-            #yaw = tf.transformations.euler_from_quaternion([goal_local.pose.orientation.x, goal_local.pose.orientation.y, goal_local.pose.orientation.z, goal_local.pose.orientation.w])[2]
+            #yaw = tf2_ros.transformations.euler_from_quaternion([goal_local.pose.orientation.x, goal_local.pose.orientation.y, goal_local.pose.orientation.z, goal_local.pose.orientation.w])[2]
             #print(yaw)
             goal_dist = math.sqrt( math.pow(goal_local.pose.position.x, 2) + math.pow(goal_local.pose.position.y, 2) )
             goal_yaw = math.atan2(goal_local.pose.position.y, goal_local.pose.position.x)
@@ -44,7 +46,7 @@ def timerCallback(event):
                 else:
                     twist.linear.x = 0
                     twist.angular.z = goal_yaw
-        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException) as e:
+        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as e:
             print(e)
             twist.linear.x = 0
             twist.angular.z = 0
@@ -52,7 +54,8 @@ def timerCallback(event):
 
 if __name__ == '__main__':
     rospy.init_node('manual',anonymous=True)
-    tf_listener = tf.TransformListener()
+    tf_buffer = tf2_ros.Buffer()
+    tf_listener = tf2_ros.TransformListener(tf_buffer)
     vel_pub = rospy.Publisher('cmd_vel',Twist, queue_size=1)
     goal_sub = rospy.Subscriber("/move_base_simple/goal", PoseStamped, goalCallback)
     rospy.Timer(rospy.Duration(0.1), timerCallback)

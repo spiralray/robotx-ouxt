@@ -1,19 +1,16 @@
 <launch>
   <include file="$(find ouxt)/launch/sensor.launch"/>
   <!--
-  <node pkg="joy" type="joy_node" name="joy_node" output="screen">
-  </node>
+  <node pkg="joy" type="joy_node" name="joy_node" output="screen" />
   -->
 
-  <node pkg="ouxt" type="heartbeat_listener.py" name="heartbeat_listener" output="screen">
-  </node>
+  <node pkg="ouxt" type="heartbeat_listener.py" name="heartbeat_listener" output="screen" />
 
   <node pkg="ouxt" type="manual.py" name="manual" output="screen">
     <remap from="/cmd_vel" to="/manual_vel"/>
   </node>
 
-  <node pkg="ouxt_base_controller" type="ouxt_base_controller_node" name="ouxt_base_controller_node" output="screen">
-  </node>
+  <node pkg="ouxt_base_controller" type="ouxt_base_controller_node" name="ouxt_base_controller_node" output="screen" />
   <include file="$(find motor_driver)/launch/motor.launch"/>
 
   <node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
@@ -98,6 +95,5 @@
   </node>
 -->
 
-  <node pkg="ouxt" type="simpleMove.py" name="simpleMove" output="screen">
-  </node>
+  <node pkg="ouxt" type="simpleMove.py" name="simpleMove" output="screen" />
 </launch>
