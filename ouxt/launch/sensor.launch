@@ -1,9 +1,18 @@
 <launch>
   <node pkg="hokuyo3d" type="hokuyo3d" name="hokuyo3d" output="screen">
     <param name="ip" type="string" value="192.168.10.10" />
+    <param name="range_min" type="double" value="2.3" />
   </node>
-
-  <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="nmea_navsat_driver" output="screen" clear_params="true">
+  <!--
+  <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="SC30" output="screen" clear_params="true">
+    <param name="port" type="string" value="/dev/ttyUSB_FURUNO" />
+    <param name="baud" type="int" value="4800" />
+    <remap from="/fix" to="/furuno/fix"/>
+    <remap from="/vel" to="/furuno/vel"/>
+    <remap from="/time_reference" to="/gps/time_reference"/>
+  </node>
+  -->
+  <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="GMSG9" output="screen" clear_params="true">
     <param name="port" type="string" value="/dev/ttyUSB_GPS" />
     <param name="baud" type="int" value="9600" />
     <remap from="/fix" to="/gps/fix"/>

@@ -1,15 +1,16 @@
 ## USB port
-port: "/dev/tty.usbserial-AI04Y03A"
+port: "/dev/ttyUSB_IMU"
 
 
 ##### Calibration ####
 ### accelerometer
-accel_x_min: -260.0
-accel_x_max: 240.0
-accel_y_min: -210.0
-accel_y_max: 290.0
-accel_z_min: -232.0
-accel_z_max: 268.0
+accel_x_min: -248.0
+accel_x_max: 262.0
+accel_y_min: -250.0
+accel_y_max: 250.0
+accel_z_min: -227.0
+accel_z_max: 273.0
+
 
 ### magnetometer
 # standard calibration
@@ -26,7 +27,7 @@ magn_ellipsoid_center: [164.243, -41.3768, -42.5215]
 magn_ellipsoid_transform: [[0.838756, -0.00202626, 0.00924137], [-0.00202626, 0.916375, 0.0273564], [0.00924137, 0.0273564, 0.990594]]
 
 # AHRS to robot calibration
-imu_yaw_calibration: -90.0
+imu_yaw_calibration: 90.0
 
 ### gyroscope
 gyro_average_offset_x: 0.0
