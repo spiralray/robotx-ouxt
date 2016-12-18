@@ -68,8 +68,26 @@
     <param name="print_diagnostics" value="false"/>
   </node>
 
-  <include file="$(find ouxt)/launch/mapping.launch"/>
+  <!-- <include file="$(find ouxt)/launch/mapping.launch"/> -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_odom" args="0 0 0 0 0 0 1 map odom" />
 
+  <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+    <param name="resolution" value="0.0250" />
+
+    <!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
+    <param name="frame_id" type="string" value="map" />
+
+    <!-- maximum range to integrate (speedup, accuracy) -->
+    <param name="max_sensor_range" value="7.0" />
+
+    <param name="filter_ground" value="false" /><!-- who knows where the floor is? -->
+    <param name="base_frame_id" value="base_link" /> <!--needs to be set, even if not used-->
+
+    <!-- data source to integrate (PointCloud2) -->
+    <remap from="cloud_in" to="/hokuyo3d/hokuyo_cloud2" />
+  </node>
+
+<!--
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find ouxt)/param/costmap_common_params.yaml" command="load" ns="global_costmap"/>
     <rosparam file="$(find ouxt)/param/costmap_common_params.yaml" command="load" ns="local_costmap"/>
@@ -78,5 +96,8 @@
     <rosparam file="$(find ouxt)/param/base_local_planner_params.yaml" command="load"/>
     <rosparam file="$(find ouxt)/param/move_base_params.yaml" command="load"/>
   </node>
+-->
 
+  <node pkg="ouxt" type="simpleMove.py" name="simpleMove" output="screen">
+  </node>
 </launch>
