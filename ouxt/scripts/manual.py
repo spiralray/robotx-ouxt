@@ -10,7 +10,7 @@ def callback(data):
     twist = Twist()
     mode = Int32()
 
-    twist.linear.x = 2*data.axes[1]
+    twist.linear.x = 2.4*data.axes[1]
     twist.angular.z = data.axes[0]
     vel_pub.publish(twist)
 
@@ -22,8 +22,8 @@ def callback(data):
         mode_pub.publish(mode)
 
 if __name__ == '__main__':
+    rospy.init_node('manual',anonymous=True)
     vel_pub = rospy.Publisher('cmd_vel',Twist, queue_size=1)
     mode_pub = rospy.Publisher('mode',Int32, queue_size=1)
     joy_sub = rospy.Subscriber("joy", Joy, callback)
-    rospy.init_node('manual',anonymous=True)
     rospy.spin()

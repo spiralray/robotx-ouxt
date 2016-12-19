@@ -12,10 +12,10 @@ int mode = 0;
 
 void OutputMotor(const geometry_msgs::Twist& twist){
   std_msgs::Float32 left_msg, right_msg;
-  left_msg.data = std::min(twist.linear.x/3.0f, 0.7);
-  right_msg.data = std::min(twist.linear.x/3.0f, 0.7);
-  left_msg.data = std::min(left_msg.data-twist.angular.z/3, 0.99);
-  right_msg.data = std::min(right_msg.data+twist.angular.z/3, 0.99);
+  left_msg.data = std::max( std::min(twist.linear.x/3.0f, 0.8), -0.8);
+  right_msg.data = std::max( std::min(twist.linear.x/3.0f, 0.8), -0.8);
+  left_msg.data = std::max( std::min(left_msg.data-twist.angular.z, 0.99), -0.99);
+  right_msg.data = std::max( std::min(right_msg.data+twist.angular.z, 0.99), -0.99);
   motor_left.publish(left_msg);
   motor_right.publish(right_msg);
 }
